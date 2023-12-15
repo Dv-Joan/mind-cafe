@@ -1,31 +1,113 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '../../components/EditScreenInfo';
-import { Text, View } from '../../components/Themed';
+import { Button, Divider, IconButton } from "react-native-paper";
+import EditScreenInfo from "../../components/EditScreenInfo";
+import { ScrollView, Text, View } from "react-native";
+import * as React from "react";
+import { useFonts } from "expo-font";
+import { Image } from "expo-image";
+import { Asset } from "expo-asset";
+import { Link } from "expo-router";
+const blurhash =
+  "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
 export default function TabOneScreen() {
+  const [loaded, error] = useFonts({
+    Kalnia: require("../../assets/fonts/Kalnia-Regular-Semibold.ttf"),
+  });
+  React.useEffect(() => {
+    if (error) throw error;
+  }, [error]);
+
+  if (!loaded) {
+    return null;
+  }
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <ScrollView className="p-5 space-y-5">
+      <View>
+        <Text
+          className="text-4xl"
+          style={{
+            fontFamily: "Kalnia",
+          }}
+        >
+          mind cafe
+        </Text>
+        <Text className="text-2xl">
+          Relaxed, inspiring essays about happiness
+        </Text>
+      </View>
+      <View className="flex flex-row gap-3 items-center">
+        <Button
+          icon={"arrow-right"}
+          className="w-32"
+          mode="contained"
+          buttonColor="gray"
+          onPress={() => console.log("Pressed")}
+        >
+          Follow us
+        </Button>
+        <Text className="font-semibold">140K Followers</Text>
+      </View>
+      <Divider />
+      <View className="flex flex-row  items-center justify-between">
+        <Text className="font-semibold uppercase">Latest</Text>
+        <View className="flex flex-row items-center">
+          <IconButton
+            icon={"view-dashboard-outline"}
+            size={20}
+            onPress={() => console.log("Pressed")}
+          />
+          <IconButton
+            icon={"format-list-bulleted"}
+            size={20}
+            onPress={() => console.log("Pressed")}
+          />
+        </View>
+      </View>
+      <View className="space-y-4">
+        <View className="flex items-center  flex-row gap-2">
+          <Text
+            style={{
+              fontFamily: "Kalnia",
+            }}
+          >
+            BBC
+          </Text>
+          <Text className="font-semibold">Julian Basīc</Text>
+          <Text className="text-zinc-500">in</Text>
+          <Text className="font-semibold">Mind Cafe</Text>
+          <Text className="text-zinc-500">• 19 hours ago</Text>
+        </View>
+        <Text className="text-4xl font-bold">
+          4 Hidden Philosphical Gems To Live By
+        </Text>
+        <Text className="text-xl font-semibold text-zinc-400">
+          #3 The Homeless dog philosopher of Ancient Greece and his lessons on
+          freedom.
+        </Text>
+
+        <Image
+          source="https://images.pexels.com/photos/103123/pexels-photo-103123.jpeg?auto=compress&cs=tinysrgb&w=800"
+          style={{ height: 300 }}
+          transition={1000}
+          placeholder={blurhash}
+        />
+        <View className="flex items-center  justify-center text-center  flex-row gap-1">
+          <Text className="text-zinc-500">Photo by</Text>
+          <Link
+            href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+            asChild
+          >
+            <Text className="underline text-zinc-500">Alexandra Satiya</Text>
+          </Link>
+          <Text className="text-zinc-500">on</Text>
+          <Link
+            href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+            asChild
+          >
+            <Text className="underline text-zinc-500">Unsplash</Text>
+          </Link>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
