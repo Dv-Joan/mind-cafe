@@ -51,7 +51,7 @@ export default function TabLayout() {
             </Pressable>
           ),
           headerLeft: () => (
-            <Link href="/modal" asChild>
+            <Link href="/(tabs)/two" asChild>
               <IconButton
                 icon={"arrow-left"}
                 size={20}

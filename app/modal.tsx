@@ -14,8 +14,9 @@ type TUser = {
 export default function ModalScreen() {
   const { name, email, phone, profilePic } = useLocalSearchParams<TUser>();
   const [visible, setVisible] = React.useState(false);
-  const showDialog = () => setVisible(true);
-  const hideDialog = () => setVisible(false);
+  const dialogHandler = () => {
+    setVisible((prevVisible: React.SetStateAction<boolean>) => !prevVisible);
+  };
   return (
     <View style={styles.container}>
       <Image
@@ -46,25 +47,22 @@ export default function ModalScreen() {
         <Text>{phone} </Text>
       </View>
       <View>
-        <Button
-          className="bg-indigo-200 mt-10 rounded-full"
-          onPress={showDialog}
-          style={{
-            paddingHorizontal: 20,
-            paddingVertical: 10,
-          }}
-        >
+        <Button mode="contained" className="mt-10" onPress={dialogHandler}>
           Eliminar Cuenta
         </Button>
         <Portal>
-          <Dialog visible={visible} onDismiss={hideDialog}>
+          <Dialog
+            style={{ borderRadius: 20 }}
+            visible={visible}
+            onDismiss={dialogHandler}
+          >
             <Dialog.Title>Alerta de Seguridad</Dialog.Title>
             <Dialog.Content>
               <Text variant="bodyMedium">Seguro de eliminar tu cuenta</Text>
             </Dialog.Content>
             <Dialog.Actions>
-              <Button onPress={hideDialog}>Aceptar</Button>
-              <Button onPress={hideDialog}>Cerrar</Button>
+              <Button onPress={dialogHandler}>Aceptar</Button>
+              <Button onPress={dialogHandler}>Cerrar</Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>
