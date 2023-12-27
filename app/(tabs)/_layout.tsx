@@ -1,9 +1,16 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Tabs } from "expo-router";
-import { useColorScheme } from "react-native";
-
-import { IconButton } from "react-native-paper";
+import { Link, Tabs, router } from "expo-router";
+import * as React from "react";
+import { Pressable, useColorScheme } from "react-native";
+import { Avatar, IconButton } from "react-native-paper";
 import Colors from "../../constants/Colors";
+
+const user = {
+  name: "Brayan Paucar",
+  email: "brayan@gmail.com",
+  phone: "+51 912 019 251",
+  profilePic: "https://mighty.tools/mockmind-api/content/human/5.jpg",
+};
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -14,6 +21,12 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const handlePress = () => {
+    router.push({
+      pathname: "/modal",
+      params: user,
+    });
+  };
 
   return (
     <Tabs
@@ -27,13 +40,15 @@ export default function TabLayout() {
           title: "Home",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
-            <Link href="/modal" asChild>
-              <IconButton
-                icon={"dots-horizontal"}
-                size={20}
-                onPress={() => console.log("Pressed")}
+            <Pressable onPress={handlePress}>
+              <Avatar.Image
+                size={30}
+                className="mr-3"
+                source={{
+                  uri: "https://mighty.tools/mockmind-api/content/human/5.jpg",
+                }}
               />
-            </Link>
+            </Pressable>
           ),
           headerLeft: () => (
             <Link href="/modal" asChild>

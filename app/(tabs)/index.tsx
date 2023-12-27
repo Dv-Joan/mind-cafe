@@ -1,11 +1,9 @@
-import { Button, Divider, IconButton } from "react-native-paper";
-import EditScreenInfo from "../../components/EditScreenInfo";
-import { ScrollView, Text, View } from "react-native";
-import * as React from "react";
 import { useFonts } from "expo-font";
 import { Image } from "expo-image";
-import { Asset } from "expo-asset";
 import { Link } from "expo-router";
+import * as React from "react";
+import { ScrollView, Text, View } from "react-native";
+import { Button, Divider, IconButton } from "react-native-paper";
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
@@ -35,6 +33,7 @@ export default function TabOneScreen() {
           Relaxed, inspiring essays about happiness
         </Text>
       </View>
+
       <View className="flex flex-row gap-3 items-center">
         <Button
           icon={"arrow-right"}
