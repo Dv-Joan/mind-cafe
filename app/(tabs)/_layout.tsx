@@ -4,6 +4,7 @@ import * as React from "react";
 import { Pressable, useColorScheme } from "react-native";
 import { Avatar, IconButton } from "react-native-paper";
 import Colors from "../../constants/Colors";
+import { Foundation, Ionicons } from "@expo/vector-icons";
 
 const user = {
   name: "Brayan Paucar",
@@ -38,7 +39,9 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Foundation name="home" size={24} color={color} />
+          ),
           headerRight: () => (
             <Pressable onPress={handlePress}>
               <Avatar.Image
@@ -50,22 +53,15 @@ export default function TabLayout() {
               />
             </Pressable>
           ),
-          headerLeft: () => (
-            <Link href="/(tabs)/two" asChild>
-              <IconButton
-                icon={"arrow-left"}
-                size={20}
-                onPress={() => console.log("Pressed")}
-              />
-            </Link>
-          ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="form"
         options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Formulario",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="newspaper-outline" size={24} color={color} />
+          ),
         }}
       />
     </Tabs>

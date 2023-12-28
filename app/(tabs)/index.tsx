@@ -39,7 +39,6 @@ export default function TabOneScreen() {
           icon={"arrow-right"}
           className="w-32"
           mode="contained"
-          buttonColor="gray"
           onPress={() => console.log("Pressed")}
         >
           Follow us
