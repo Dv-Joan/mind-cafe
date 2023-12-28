@@ -10,18 +10,28 @@ interface User {
 interface UserContextProps {
   user: User | null;
   setUser: (user: User | null) => void;
+  deleteUser: (user: User | null) => void;
+  addUser: (user: User | null) => void;
 }
 
 export const UserContext = createContext<UserContextProps>({
   user: null,
   setUser: () => {},
+  deleteUser: () => {},
+  addUser: () => {},
 });
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const addUser = (user: User | null) => {
+    setUser(user);
+  };
+  const deleteUser = (user: User | null) => {
+    setUser(null);
+  };
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, deleteUser, addUser }}>
       {children}
     </UserContext.Provider>
   );

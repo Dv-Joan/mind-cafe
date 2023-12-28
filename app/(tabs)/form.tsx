@@ -1,4 +1,6 @@
-import { Controller, set, useForm } from "react-hook-form";
+import * as React from "react";
+import DatePicker from "react-native-date-picker";
+import { Controller, useForm } from "react-hook-form";
 import {
   Keyboard,
   ScrollView,
@@ -7,14 +9,14 @@ import {
 } from "react-native";
 import {
   Button,
-  Dialog,
-  Portal,
-  TextInput,
-  Text,
-  HelperText,
   Chip,
+  Dialog,
+  HelperText,
+  Portal,
+  Text,
+  TextInput,
 } from "react-native-paper";
-import * as React from "react";
+import DateTimePicker from "react-native-ui-datepicker";
 import { useUserContext } from "../../context/UserContext";
 
 type TFormData = {
@@ -26,21 +28,24 @@ type TFormData = {
 
 export default function Form() {
   const [visible, setVisible] = React.useState(false);
+  const [value, setValue] = React.useState(new Date());
   const dialogHandler = () => {
     setVisible((prevVisible: React.SetStateAction<boolean>) => !prevVisible);
   };
+  const [date, setDate] = React.useState(new Date());
+  const [open, setOpen] = React.useState(false);
   const {
     control,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<TFormData>();
-  const { user, setUser } = useUserContext();
+  const { user, addUser } = useUserContext();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const onSubmit = (data: TFormData) => {
     setIsLoading(true);
-    setUser(data);
+    addUser(data);
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
@@ -54,6 +59,7 @@ export default function Form() {
         <View
           style={{
             gap: 14,
+            marginBottom: 60,
           }}
         >
           <Controller
@@ -170,7 +176,7 @@ export default function Form() {
                 right={
                   <TextInput.Icon
                     onPress={() => setShowPassword(!showPassword)}
-                    icon={showPassword ? "eye-off" : "eye"}
+                    icon={showPassword ? "eye" : "eye-off"}
                   />
                 }
               />
@@ -179,6 +185,31 @@ export default function Form() {
             defaultValue=""
           />
         </View>
+        <DateTimePicker
+          calendarTextStyle={{
+            color: "white",
+          }}
+          todayContainerStyle={{
+            backgroundColor: "white",
+          }}
+          dayContainerStyle={{
+            backgroundColor: "purple",
+          }}
+          value={value}
+          onValueChange={(date) => setValue(date as Date)}
+        />
+        <DatePicker
+          modal
+          open={open}
+          date={date}
+          onConfirm={(date) => {
+            setOpen(false);
+            setDate(date);
+          }}
+          onCancel={() => {
+            setOpen(false);
+          }}
+        />
         <Button
           mode="contained"
           className="mt-10  rounded-full"

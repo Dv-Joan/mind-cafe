@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
@@ -13,12 +13,21 @@ type TUser = {
 };
 
 export default function ModalScreen() {
-  const { profilePic } = useLocalSearchParams<TUser>();
-  const { user } = useUserContext();
+  const { user, deleteUser } = useUserContext();
+  const { profilePic } = useLocalSearchParams();
   const [visible, setVisible] = React.useState(false);
   const dialogHandler = () => {
     setVisible((prevVisible: React.SetStateAction<boolean>) => !prevVisible);
   };
+  console.log(JSON.stringify(user, null, 2));
+  const handleDeleteUser = () => {
+    deleteUser(user);
+    dialogHandler();
+    router.push({
+      pathname: "/(tabs)/form",
+    });
+  };
+
   return (
     <>
       {user ? (
@@ -34,22 +43,18 @@ export default function ModalScreen() {
             }}
           />
 
-          {user ? (
-            <View>
-              <Text className="mt-10" style={styles.title}>
-                {user.firstName} {user.lastName}
+          <View>
+            <Text className="mt-10" style={styles.title}>
+              {user.firstName} {user.lastName}
+            </Text>
+            <View style={styles.separator} />
+            <View className="flex flex-row my-2">
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Email: </Text>
+                <Text>{user.email}</Text>
               </Text>
-              <View style={styles.separator} />
-              <View className="flex flex-row my-2">
-                <Text>
-                  <Text style={{ fontWeight: "bold" }}>Email: </Text>
-                  <Text>{user.email}</Text>
-                </Text>
-              </View>
             </View>
-          ) : (
-            <Text>Usuario no encontrado</Text>
-          )}
+          </View>
 
           <Button mode="contained" className="mt-10" onPress={dialogHandler}>
             Eliminar Cuenta
@@ -66,7 +71,7 @@ export default function ModalScreen() {
                   <Text variant="bodyMedium">Seguro de eliminar tu cuenta</Text>
                 </Dialog.Content>
                 <Dialog.Actions>
-                  <Button onPress={dialogHandler}>Aceptar</Button>
+                  <Button onPress={handleDeleteUser}>Aceptar</Button>
                   <Button onPress={dialogHandler}>Cerrar</Button>
                 </Dialog.Actions>
               </Dialog>
