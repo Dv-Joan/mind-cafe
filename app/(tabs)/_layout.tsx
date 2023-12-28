@@ -5,6 +5,7 @@ import { Pressable, useColorScheme } from "react-native";
 import { Avatar, IconButton } from "react-native-paper";
 import Colors from "../../constants/Colors";
 import { Foundation, Ionicons } from "@expo/vector-icons";
+import { UserProvider, useUserContext } from "../../context/UserContext";
 
 const user = {
   name: "Brayan Paucar",
@@ -13,15 +14,9 @@ const user = {
   profilePic: "https://mighty.tools/mockmind-api/content/human/5.jpg",
 };
 
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
-
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { user: User } = useUserContext();
   const handlePress = () => {
     router.push({
       pathname: "/modal",
@@ -30,40 +25,46 @@ export default function TabLayout() {
   };
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color }) => (
-            <Foundation name="home" size={24} color={color} />
-          ),
-          headerRight: () => (
-            <Pressable onPress={handlePress}>
-              <Avatar.Image
-                size={30}
-                className="mr-3"
-                source={{
-                  uri: "https://mighty.tools/mockmind-api/content/human/5.jpg",
-                }}
-              />
-            </Pressable>
-          ),
+    <UserProvider>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         }}
-      />
-      <Tabs.Screen
-        name="form"
-        options={{
-          title: "Formulario",
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="newspaper-outline" size={24} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Home",
+            tabBarIcon: ({ color }) => (
+              <Foundation name="home" size={24} color={color} />
+            ),
+            headerRight: () => (
+              <Pressable onPress={handlePress}>
+                {User ? (
+                  <Avatar.Image
+                    size={30}
+                    className="mr-3"
+                    source={{
+                      uri: "https://mighty.tools/mockmind-api/content/human/5.jpg",
+                    }}
+                  />
+                ) : (
+                  <Avatar.Icon size={30} className="mr-3" icon="account" />
+                )}
+              </Pressable>
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="form"
+          options={{
+            title: "Formulario",
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="newspaper-outline" size={24} color={color} />
+            ),
+          }}
+        />
+      </Tabs>
+    </UserProvider>
   );
 }

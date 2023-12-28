@@ -1,7 +1,21 @@
-import { Controller, useForm } from "react-hook-form";
-import { Text, View } from "react-native";
-import { Button, TextInput } from "react-native-paper";
+import { Controller, set, useForm } from "react-hook-form";
+import {
+  Keyboard,
+  ScrollView,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
+import {
+  Button,
+  Dialog,
+  Portal,
+  TextInput,
+  Text,
+  HelperText,
+  Chip,
+} from "react-native-paper";
 import * as React from "react";
+import { useUserContext } from "../../context/UserContext";
 
 type TFormData = {
   firstName: string;
@@ -11,119 +25,196 @@ type TFormData = {
 };
 
 export default function Form() {
+  const [visible, setVisible] = React.useState(false);
+  const dialogHandler = () => {
+    setVisible((prevVisible: React.SetStateAction<boolean>) => !prevVisible);
+  };
   const {
     control,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm<TFormData>();
+  const { user, setUser } = useUserContext();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [showPassword, setShowPassword] = React.useState(false);
-  const onSubmit = (data: any) => console.log(data);
-
+  const onSubmit = (data: TFormData) => {
+    setIsLoading(true);
+    setUser(data);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+    dialogHandler();
+    reset();
+  };
   return (
-    <View className="m-5 ">
-      <Text className="text-2xl mb-5 font-bold">Datos requeridos</Text>
-      <View
-        style={{
-          gap: 14,
-        }}
-      >
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              mode="outlined"
-              label="Nombres"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-          rules={{
-            required: {
-              value: true,
-              message: "El campo es requerido",
-            },
-            maxLength: 20,
-            pattern: /^[A-Za-z]+$/i,
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView className="m-5 ">
+        <Text className="text-2xl mb-5 font-bold">Datos requeridos</Text>
+        <View
+          style={{
+            gap: 14,
           }}
-          name="firstName"
-          defaultValue=""
-        />
+        >
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                mode="outlined"
+                label="Nombres"
+                error={!!errors.firstName}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            rules={{
+              required: {
+                value: true,
+                message: "El campo es requerido",
+              },
+              maxLength: 20,
+              pattern: /^[A-Za-z]+$/i,
+            }}
+            name="firstName"
+            defaultValue=""
+          />
 
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              label="Apellidos"
-              mode="outlined"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
+          {errors.firstName && (
+            <HelperText
+              type="error"
+              visible={errors.firstName?.type === "required"}
+            >
+              {errors.firstName?.message}
+            </HelperText>
           )}
-          rules={{
-            required: {
-              value: true,
-              message: "El campo es requerido",
-            },
-            maxLength: 20,
-            pattern: /^[A-Za-z]+$/i,
-          }}
-          name="lastName"
-          defaultValue=""
-        />
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              label="Email"
-              mode="outlined"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
+
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                label="Apellidos"
+                error={!!errors.lastName}
+                mode="outlined"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            rules={{
+              required: {
+                value: true,
+                message: "El campo es requerido",
+              },
+              maxLength: 20,
+              pattern: /^[A-Za-z]+$/i,
+            }}
+            name="lastName"
+            defaultValue=""
+          />
+          {errors.lastName && (
+            <HelperText
+              type="error"
+              visible={errors.lastName?.type === "required"}
+            >
+              {errors.lastName?.message}
+            </HelperText>
           )}
-          rules={{
-            required: {
-              value: true,
-              message: "El campo es requerido",
-            },
-            maxLength: 20,
-            pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-          }}
-          name="email"
-          defaultValue=""
-        />
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              label="Contraseña"
-              secureTextEntry={!showPassword}
-              onBlur={onBlur}
-              mode="outlined"
-              onChangeText={onChange}
-              value={value}
-              right={
-                <TextInput.Icon
-                  onPress={() => setShowPassword(!showPassword)}
-                  icon={showPassword ? "eye-off" : "eye"}
-                />
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                label="Email"
+                error={!!errors.email}
+                mode="outlined"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            rules={{
+              required: {
+                value: true,
+                message: "El campo es requerido",
+              },
+
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "El campo debe ser un email",
+              },
+            }}
+            name="email"
+            defaultValue=""
+          />
+          {errors.email && (
+            <HelperText
+              type="error"
+              visible={
+                errors.email?.type === "required" ||
+                errors.email?.type === "pattern"
               }
-            />
+            >
+              {errors.email?.message}
+            </HelperText>
           )}
-          name="password"
-          defaultValue=""
-        />
-      </View>
-      <Button
-        mode="contained"
-        className="mt-10  rounded-full"
-        onPress={handleSubmit(onSubmit)}
-      >
-        Registrar
-      </Button>
-    </View>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                label="Contraseña"
+                secureTextEntry={!showPassword}
+                onBlur={onBlur}
+                mode="outlined"
+                onChangeText={onChange}
+                value={value}
+                right={
+                  <TextInput.Icon
+                    onPress={() => setShowPassword(!showPassword)}
+                    icon={showPassword ? "eye-off" : "eye"}
+                  />
+                }
+              />
+            )}
+            name="password"
+            defaultValue=""
+          />
+        </View>
+        <Button
+          mode="contained"
+          className="mt-10  rounded-full"
+          loading={isLoading}
+          onPress={handleSubmit(onSubmit)}
+        >
+          Registrar
+        </Button>
+        <Portal>
+          <Dialog
+            style={{ borderRadius: 20 }}
+            visible={visible}
+            onDismiss={dialogHandler}
+          >
+            <Dialog.Title>Informacion de Usuario</Dialog.Title>
+            <Dialog.Content className="space-y-5">
+              <Chip className="text-left ">
+                <Text className="font-semibold ">Nombres : </Text>
+                <Text> {user?.firstName}</Text>
+              </Chip>
+              <Chip className="text-left ">
+                <Text className="font-semibold ">Apellidos : </Text>
+                <Text> {user?.lastName}</Text>
+              </Chip>
+              <Chip className="text-left ">
+                <Text className="font-semibold ">Email : </Text>
+                <Text> {user?.email}</Text>
+              </Chip>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={dialogHandler}>Aceptar</Button>
+              <Button onPress={dialogHandler}>Cerrar</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+      </ScrollView>
+    </TouchableWithoutFeedback>
   );
 }
