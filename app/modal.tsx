@@ -45,14 +45,14 @@ export default function ModalScreen() {
 
           <View>
             <Text className="mt-10" style={styles.title}>
-              {users.filter((user) => user.id === "1")[0].firstName}
-              {users.filter((user) => user.id === "1")[0].lastName}
+              {users.filter((user) => user.id === "1")[0]?.firstName}
+              {users.filter((user) => user.id === "1")[0]?.lastName}
             </Text>
             <View style={styles.separator} />
             <View className="flex flex-row my-2">
               <Text>
                 <Text style={{ fontWeight: "bold" }}>Email: </Text>
-                <Text>{users.filter((user) => user.id === "1")[0].email}</Text>
+                <Text>{users.filter((user) => user.id === "1")[0]?.email}</Text>
               </Text>
             </View>
           </View>

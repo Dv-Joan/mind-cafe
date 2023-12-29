@@ -1,5 +1,5 @@
-import { useUserContext } from "@/context/UserContext";
 import { useUser } from "@/hooks/user-reducer";
+import { AntDesign } from "@expo/vector-icons";
 import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
@@ -93,6 +93,7 @@ export default function Form() {
               type="error"
               visible={errors.firstName?.type === "required"}
             >
+              <AntDesign name="infocirlceo" size={14} color="red" />{" "}
               {errors.firstName?.message}
             </HelperText>
           )}
@@ -125,6 +126,7 @@ export default function Form() {
               type="error"
               visible={errors.lastName?.type === "required"}
             >
+              <AntDesign name="infocirlceo" size={14} color="red" />{" "}
               {errors.lastName?.message}
             </HelperText>
           )}
@@ -162,6 +164,7 @@ export default function Form() {
                 errors.email?.type === "pattern"
               }
             >
+              <AntDesign name="infocirlceo" size={14} color="red" />{" "}
               {errors.email?.message}
             </HelperText>
           )}
@@ -206,15 +209,15 @@ export default function Form() {
             <Dialog.Content className="space-y-5">
               <Chip className="text-left ">
                 <Text className="font-semibold ">Nombres : </Text>
-                <Text> {users[2]?.firstName} </Text>
+                <Text> {users[0]?.firstName} </Text>
               </Chip>
               <Chip className="text-left ">
                 <Text className="font-semibold ">Apellidos : </Text>
-                <Text>{users[2]?.lastName}</Text>
+                <Text>{users[0]?.lastName}</Text>
               </Chip>
               <Chip className="text-left ">
                 <Text className="font-semibold ">Email : </Text>
-                <Text>{users[2]?.email}</Text>
+                <Text>{users[0]?.email}</Text>
               </Chip>
             </Dialog.Content>
             <Dialog.Actions>
