@@ -5,6 +5,7 @@ import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import { Button, Dialog, Portal, Text } from "react-native-paper";
 import { useUserContext } from "../context/UserContext";
+import { useUser } from "@/hooks/user-reducer";
 type TUser = {
   name: string;
   email: string;
@@ -13,15 +14,14 @@ type TUser = {
 };
 
 export default function ModalScreen() {
-  const { user, deleteUser } = useUserContext();
   const { profilePic } = useLocalSearchParams();
+  const { deleteUser, users } = useUser();
   const [visible, setVisible] = React.useState(false);
   const dialogHandler = () => {
     setVisible((prevVisible: React.SetStateAction<boolean>) => !prevVisible);
   };
-  console.log(JSON.stringify(user, null, 2));
   const handleDeleteUser = () => {
-    deleteUser(user);
+    deleteUser("1");
     dialogHandler();
     router.push({
       pathname: "/(tabs)/form",
@@ -30,7 +30,7 @@ export default function ModalScreen() {
 
   return (
     <>
-      {user ? (
+      {users ? (
         <View style={styles.container}>
           <Image
             className="rounded-full"
@@ -45,13 +45,14 @@ export default function ModalScreen() {
 
           <View>
             <Text className="mt-10" style={styles.title}>
-              {user.firstName} {user.lastName}
+              {users.filter((user) => user.id === "1")[0].firstName}
+              {users.filter((user) => user.id === "1")[0].lastName}
             </Text>
             <View style={styles.separator} />
             <View className="flex flex-row my-2">
               <Text>
                 <Text style={{ fontWeight: "bold" }}>Email: </Text>
-                <Text>{user.email}</Text>
+                <Text>{users.filter((user) => user.id === "1")[0].email}</Text>
               </Text>
             </View>
           </View>

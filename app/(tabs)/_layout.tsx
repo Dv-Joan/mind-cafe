@@ -3,7 +3,7 @@ import { Tabs } from "expo-router";
 import * as React from "react";
 import { useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
-import { UserProvider } from "../../context/UserContext";
+import { UserProvider } from "@/context/UserContext";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();

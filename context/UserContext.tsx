@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 import { useUser } from "@/hooks/user-reducer";
 interface User {
+  id: string;
   firstName: string;
   lastName: string;
   email: string;

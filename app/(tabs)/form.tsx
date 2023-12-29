@@ -1,6 +1,7 @@
+import { useUserContext } from "@/context/UserContext";
+import { useUser } from "@/hooks/user-reducer";
 import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
-import UserRegisterSchema from "@/schemas/userRegister";
 import {
   Keyboard,
   ScrollView,
@@ -16,8 +17,6 @@ import {
   Text,
   TextInput,
 } from "react-native-paper";
-import { useUserContext } from "../../context/UserContext";
-import { useUser } from "@/hooks/user-reducer";
 
 type TFormData = {
   firstName: string;
@@ -27,26 +26,28 @@ type TFormData = {
 };
 
 export default function Form() {
-  const state = useUser();
   const [visible, setVisible] = React.useState(false);
-  const [value, setValue] = React.useState(new Date());
   const dialogHandler = () => {
     setVisible((prevVisible: React.SetStateAction<boolean>) => !prevVisible);
   };
-  const [date, setDate] = React.useState(new Date());
-  const [open, setOpen] = React.useState(false);
+  const { users, addUser } = useUser();
   const {
     control,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<TFormData>();
-  const { handleAddUser } = useUserContext();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const onSubmit = (data: TFormData) => {
     setIsLoading(true);
-    handleAddUser(data);
+    addUser({
+      id: "1",
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password,
+    });
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
@@ -205,15 +206,15 @@ export default function Form() {
             <Dialog.Content className="space-y-5">
               <Chip className="text-left ">
                 <Text className="font-semibold ">Nombres : </Text>
-                <Text> {state.user.firstName}</Text>
+                <Text> {users[2]?.firstName} </Text>
               </Chip>
               <Chip className="text-left ">
                 <Text className="font-semibold ">Apellidos : </Text>
-                <Text> {state.user.lastName}</Text>
+                <Text>{users[2]?.lastName}</Text>
               </Chip>
               <Chip className="text-left ">
                 <Text className="font-semibold ">Email : </Text>
-                <Text> {state.user.email}</Text>
+                <Text>{users[2]?.email}</Text>
               </Chip>
             </Dialog.Content>
             <Dialog.Actions>
