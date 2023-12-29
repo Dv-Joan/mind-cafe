@@ -1,6 +1,6 @@
 import * as React from "react";
-import DatePicker from "react-native-date-picker";
 import { Controller, useForm } from "react-hook-form";
+import UserRegisterSchema from "@/schemas/userRegister";
 import {
   Keyboard,
   ScrollView,
@@ -16,8 +16,8 @@ import {
   Text,
   TextInput,
 } from "react-native-paper";
-import DateTimePicker from "react-native-ui-datepicker";
 import { useUserContext } from "../../context/UserContext";
+import { useUser } from "@/hooks/user-reducer";
 
 type TFormData = {
   firstName: string;
@@ -27,6 +27,7 @@ type TFormData = {
 };
 
 export default function Form() {
+  const state = useUser();
   const [visible, setVisible] = React.useState(false);
   const [value, setValue] = React.useState(new Date());
   const dialogHandler = () => {
@@ -40,12 +41,12 @@ export default function Form() {
     formState: { errors },
     reset,
   } = useForm<TFormData>();
-  const { user, addUser } = useUserContext();
+  const { handleAddUser } = useUserContext();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const onSubmit = (data: TFormData) => {
     setIsLoading(true);
-    addUser(data);
+    handleAddUser(data);
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
@@ -185,31 +186,7 @@ export default function Form() {
             defaultValue=""
           />
         </View>
-        <DateTimePicker
-          calendarTextStyle={{
-            color: "white",
-          }}
-          todayContainerStyle={{
-            backgroundColor: "white",
-          }}
-          dayContainerStyle={{
-            backgroundColor: "purple",
-          }}
-          value={value}
-          onValueChange={(date) => setValue(date as Date)}
-        />
-        <DatePicker
-          modal
-          open={open}
-          date={date}
-          onConfirm={(date) => {
-            setOpen(false);
-            setDate(date);
-          }}
-          onCancel={() => {
-            setOpen(false);
-          }}
-        />
+
         <Button
           mode="contained"
           className="mt-10  rounded-full"
@@ -228,15 +205,15 @@ export default function Form() {
             <Dialog.Content className="space-y-5">
               <Chip className="text-left ">
                 <Text className="font-semibold ">Nombres : </Text>
-                <Text> {user?.firstName}</Text>
+                <Text> {state.user.firstName}</Text>
               </Chip>
               <Chip className="text-left ">
                 <Text className="font-semibold ">Apellidos : </Text>
-                <Text> {user?.lastName}</Text>
+                <Text> {state.user.lastName}</Text>
               </Chip>
               <Chip className="text-left ">
                 <Text className="font-semibold ">Email : </Text>
-                <Text> {user?.email}</Text>
+                <Text> {state.user.email}</Text>
               </Chip>
             </Dialog.Content>
             <Dialog.Actions>

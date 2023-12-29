@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-
+import { useUser } from "@/hooks/user-reducer";
 interface User {
   firstName: string;
   lastName: string;
@@ -8,30 +8,25 @@ interface User {
 }
 
 interface UserContextProps {
-  user: User | null;
-  setUser: (user: User | null) => void;
+  handleAddUser: (user: User) => void;
   deleteUser: (user: User | null) => void;
-  addUser: (user: User | null) => void;
 }
 
 export const UserContext = createContext<UserContextProps>({
-  user: null,
-  setUser: () => {},
   deleteUser: () => {},
-  addUser: () => {},
+  handleAddUser: () => {},
 });
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const addUser = (user: User | null) => {
-    setUser(user);
+  const state = useUser();
+
+  const handleAddUser = (user: User) => {
+    state.addUser(user);
   };
-  const deleteUser = (user: User | null) => {
-    setUser(null);
-  };
+  const deleteUser = (user: User | null) => {};
 
   return (
-    <UserContext.Provider value={{ user, setUser, deleteUser, addUser }}>
+    <UserContext.Provider value={{ deleteUser, handleAddUser }}>
       {children}
     </UserContext.Provider>
   );
