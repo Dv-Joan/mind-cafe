@@ -2,7 +2,13 @@ import { useFonts } from "expo-font";
 import { Image } from "expo-image";
 import { Link, router } from "expo-router";
 import * as React from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import {
+  Pressable,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {
   Avatar,
   Button,
@@ -53,7 +59,10 @@ export default function TabOneScreen() {
             >
               mind cafe
             </Text>
-            <Pressable className="absolute -right-2" onPress={handlePress}>
+            <TouchableOpacity
+              className="absolute -right-2"
+              onPress={handlePress}
+            >
               {user ? (
                 <Avatar.Image
                   size={30}
@@ -64,7 +73,7 @@ export default function TabOneScreen() {
               ) : (
                 <Avatar.Icon size={30} icon="account" />
               )}
-            </Pressable>
+            </TouchableOpacity>
           </View>
           <Text className="text-2xl">
             Relaxed, inspiring essays about happiness

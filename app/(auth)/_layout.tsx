@@ -4,14 +4,14 @@ import { Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 
-const AuthLayout = () => {
+export default function AuthLayout() {
   return (
     <Stack>
       <Stack.Screen
         name="index"
         options={{
           presentation: "card",
-          title: "",
+          title: "Inicio de Sesión",
           headerRight: () => {
             return (
               <Button
@@ -43,6 +43,4 @@ const AuthLayout = () => {
       />
     </Stack>
   );
-};
-
-export default AuthLayout;
+}
