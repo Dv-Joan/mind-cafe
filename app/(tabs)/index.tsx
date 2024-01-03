@@ -35,7 +35,7 @@ export default function TabOneScreen() {
   }
   const handlePress = () => {
     router.push({
-      pathname: "/modal",
+      pathname: "/(auth)/",
       params: User || user,
     });
   };
