@@ -29,11 +29,6 @@ const schema = z.object({
     .min(6, { message: "Password must be at least 6 characters long" }),
 });
 
-type FormData = {
-  username: string;
-  email: string;
-  password: string;
-};
 export default function Login() {
   const {
     control,
@@ -173,7 +168,7 @@ export default function Login() {
           >
             Sign Up
           </Button>
-          <View className="flex flex-row justify-center">
+          <View className="flex flex-row justify-center ">
             <Text className=" text-[#9897A0]">Don't have an account?</Text>
             <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
               <Text className=" text-[#1876F2] font-semibold "> Sign In</Text>

@@ -74,9 +74,14 @@ export default function TabOneScreen() {
                 // <Avatar.Icon size={30} icon="account" />
                 <IconButton
                   icon="logout"
+                  iconColor="indigo"
                   mode="contained-tonal"
-                  size={30}
-                  onPress={() => console.log("Pressed")}
+                  size={20}
+                  onPress={() =>
+                    router.push({
+                      pathname: "/(auth)/",
+                    })
+                  }
                 />
               )}
             </TouchableOpacity>
