@@ -75,7 +75,7 @@ export default function Login() {
             </Text>
           </View>
           <View className="flex flex-row  gap-2 pr-4">
-            <Button
+            {/* <Button
               className="rounded-xl w-1/2 active:opacity-70 "
               mode="contained"
               buttonColor="#EC4033"
@@ -83,6 +83,14 @@ export default function Login() {
               onPress={() => Linking.openURL("https://google.com")}
             >
               Google
+            </Button> */}
+            <Button
+              onPress={() => router.push("/(auth)/movies")}
+              className="rounded-xl w-1/2 active:opacity-70 "
+              mode="contained"
+              buttonColor="#EC4033"
+            >
+              Movies{" "}
             </Button>
 
             <Button
