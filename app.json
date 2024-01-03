@@ -12,15 +12,34 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCalendarsUsageDescription": "MindCafe needs to access your calendar.",
+        "NSRemindersUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders",
+        "NSCalendarsFullAccessUsageDescription": "MindCafe needs to access your calendar.",
+        "NSRemindersFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders",
+        "NSContactsUsageDescription": "Allow MindCafe to access your contacts."
+      },
+      "bundleIdentifier": "com.joanpaucar.mindcafe"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.READ_CALENDAR",
+        "android.permission.WRITE_CALENDAR",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_CONTACTS",
+        "android.permission.WRITE_CONTACTS"
+      ],
+      "package": "com.joanpaucar.mindcafe"
     },
     "web": {
       "bundler": "metro",
@@ -58,13 +77,23 @@
         {
           "icon": "./assets/images/logo.png",
           "color": "#ffffff",
-          "sounds": ["./assets/sounds/notification-sound.wav"]
+          "sounds": [
+            "./assets/sounds/notification-sound.wav"
+          ]
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "57cfae27-0e5e-44f7-a18e-8ab1ce306444"
+      }
     }
   }
 }

@@ -62,7 +62,7 @@ export default function Login() {
         )}
       />
       <List.Item
-        className="bg-blue-100/50 shadow-xl rounded-3xl p-3"
+        className="bg-blue-100 shadow-xl rounded-3xl p-3"
         title={(props) => (
           <Text className=" font-bold">The quick brown fox jumps over</Text>
         )}
@@ -78,7 +78,7 @@ export default function Login() {
           </View>
         )}
       />
-      <View className="bg-blue-100/50 rounded-3xl shadow-xl p-3">
+      <View className="bg-blue-100 rounded-3xl shadow-xl p-3">
         <View className="flex flex-row justify-between items-center">
           <Text className="text-xs">
             Lorem ipsum dolor sit amet consectetur

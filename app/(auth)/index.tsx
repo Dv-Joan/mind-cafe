@@ -3,7 +3,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+
 import {
+  Alert,
   Keyboard,
   Linking,
   ScrollView,
@@ -40,7 +42,16 @@ export default function Login() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const onSubmit = (data: any) => {
-    alert("Welcome to Mind Cafe!");
+    Alert.alert(
+      "Welcome",
+      `${data.username} is great for us that you begin with Mind Cafe, hope you enjoy it! `,
+      [
+        {
+          text: "OK",
+          onPress: () => console.log("OK Pressed"),
+        },
+      ]
+    );
     router.push({
       pathname: "/(tabs)",
       params: data,
@@ -91,7 +102,7 @@ export default function Login() {
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    className="rounded-xl  bg-[#24273A]"
+                    className="rounded-xl shadow-md  bg-[#24273A]"
                     textColor="white"
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -113,7 +124,7 @@ export default function Login() {
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    className="rounded-xl bg-[#24273A] "
+                    className="rounded-xl shadow-md bg-[#24273A] "
                     onBlur={onBlur}
                     textColor="white"
                     onChangeText={onChange}
@@ -135,7 +146,7 @@ export default function Login() {
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    className="rounded-xl  bg-[#24273A] "
+                    className="rounded-xl shadow-md  bg-[#24273A] "
                     onBlur={onBlur}
                     textColor="white"
                     secureTextEntry={!showPassword}
