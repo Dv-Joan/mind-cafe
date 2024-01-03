@@ -11,14 +11,14 @@ export default function AuthLayout() {
         name="index"
         options={{
           presentation: "card",
-          title: "Login",
+          title: "Sign Up",
           headerRight: () => {
             return (
               <Button
-                onPress={() => router.push({ pathname: "/(auth)/signup" })}
+                onPress={() => router.push({ pathname: "/(auth)/login" })}
                 mode="text"
               >
-                Sing Up
+                Login
               </Button>
             );
           },
@@ -34,7 +34,7 @@ export default function AuthLayout() {
         }}
       />
       <Stack.Screen
-        name="signup"
+        name="login"
         options={{
           headerShown: false,
           presentation: "modal",
