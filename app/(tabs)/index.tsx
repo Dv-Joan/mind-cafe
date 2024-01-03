@@ -1,6 +1,6 @@
 import { useFonts } from "expo-font";
 import { Image } from "expo-image";
-import { Link, router } from "expo-router";
+import { Link, router, useLocalSearchParams } from "expo-router";
 import * as React from "react";
 import {
   Pressable,
@@ -71,7 +71,13 @@ export default function TabOneScreen() {
                   }}
                 />
               ) : (
-                <Avatar.Icon size={30} icon="account" />
+                // <Avatar.Icon size={30} icon="account" />
+                <IconButton
+                  icon="logout"
+                  mode="contained-tonal"
+                  size={30}
+                  onPress={() => console.log("Pressed")}
+                />
               )}
             </TouchableOpacity>
           </View>

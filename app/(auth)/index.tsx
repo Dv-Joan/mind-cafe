@@ -1,6 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import React from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
   Keyboard,
   Linking,
@@ -10,17 +12,28 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button, HelperText, TextInput } from "react-native-paper";
+import { z } from "zod";
 
 const schema = z.object({
-  username: z.string().min(3).max(20),
-  email: z.string().email(),
-  password: z.string().min(6).max(100),
+  username: z
+    .string()
+    .min(1, { message: "This field is required " })
+    .max(20, { message: "Username must be no more than 20 characters long" })
+    .refine((value) => /^[a-zA-Z0-9]+$/.test(value), {
+      message: "Username can only contain alphanumeric characters",
+    }),
+  email: z.string().email({ message: "Email must be a valid email address" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters long" }),
 });
 
+type FormData = {
+  username: string;
+  email: string;
+  password: string;
+};
 export default function Login() {
   const {
     control,
@@ -31,7 +44,13 @@ export default function Login() {
   });
   const [showPassword, setShowPassword] = React.useState(false);
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data: any) => {
+    alert("Welcome to Mind Cafe!");
+    router.push({
+      pathname: "/(tabs)",
+      params: data,
+    });
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -89,7 +108,9 @@ export default function Login() {
                 defaultValue=""
               />
               {errors.username && (
-                <HelperText type="error">This is required.</HelperText>
+                <HelperText type="error">
+                  {errors.username.message as any}
+                </HelperText>
               )}
             </View>
             <View>
@@ -109,7 +130,9 @@ export default function Login() {
                 defaultValue=""
               />
               {errors.email && (
-                <HelperText type="error">This is required.</HelperText>
+                <HelperText type="error">
+                  {errors.email.message as any}
+                </HelperText>
               )}
             </View>
             <View>
@@ -136,7 +159,9 @@ export default function Login() {
                 defaultValue=""
               />
               {errors.password && (
-                <HelperText type="error">This is required.</HelperText>
+                <HelperText type="error">
+                  {errors.password.message as any}
+                </HelperText>
               )}
             </View>
           </View>
