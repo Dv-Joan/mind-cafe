@@ -11,14 +11,14 @@ export default function AuthLayout() {
         name="index"
         options={{
           presentation: "card",
-          title: "Inicio de Sesión",
+          title: "Login",
           headerRight: () => {
             return (
               <Button
                 onPress={() => router.push({ pathname: "/(auth)/signup" })}
                 mode="text"
               >
-                Signup
+                Sing Up
               </Button>
             );
           },
@@ -26,7 +26,7 @@ export default function AuthLayout() {
             return (
               <Link href="/(tabs)/" asChild>
                 <TouchableOpacity className="flex flex-row -ml-3 items-center">
-                  <Ionicons name="ios-chevron-back" size={24} />
+                  <Ionicons name="ios-chevron-back" size={24} color="indigo" />
                 </TouchableOpacity>
               </Link>
             );
@@ -38,7 +38,6 @@ export default function AuthLayout() {
         options={{
           headerShown: false,
           presentation: "modal",
-          headerBackTitle: "Login",
         }}
       />
     </Stack>

@@ -50,7 +50,7 @@ export default function TabOneScreen() {
     <ScrollView className="p-5 space-y-5">
       <SafeAreaView className=" space-y-5">
         <View>
-          <View className="flex mb-7 flex-row items-center justify-between">
+          <View className="flex mb-7 flex-row items-start justify-between">
             <Text
               className="text-4xl"
               style={{
