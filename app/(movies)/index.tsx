@@ -13,7 +13,7 @@ import { Chip } from "react-native-paper";
 export default function MoviesPage() {
   const [movies, setMovies] = React.useState<any>([]);
 
-  React.useEffect(() => {
+  function getMovies() {
     fetch("https://moviesdatabase.p.rapidapi.com/titles/x/upcoming", {
       method: "GET",
       headers: {
@@ -24,6 +24,10 @@ export default function MoviesPage() {
       .then((response) => response.json())
       .then((data) => setMovies(data.results))
       .catch((error) => console.error(error));
+  }
+
+  React.useEffect(() => {
+    getMovies();
   }, []);
 
   return (
@@ -36,7 +40,7 @@ export default function MoviesPage() {
           <TouchableOpacity
             onPress={() => {
               router.push({
-                pathname: `/(movies)/${movie.id}`,
+                pathname: `/(movies)/details/${movie.id}`,
                 params: movie.id,
               });
             }}

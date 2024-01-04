@@ -1,7 +1,7 @@
-import { View, Text, Touchable, TouchableOpacity } from "react-native";
-import React from "react";
-import { Stack, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { Stack, router } from "expo-router";
+import React from "react";
+import { TouchableOpacity } from "react-native";
 
 export default function MoviesLayout() {
   return (
@@ -19,10 +19,10 @@ export default function MoviesLayout() {
         }}
       />
       <Stack.Screen
-        name="[id]"
+        name="details/[id]"
         options={{
           headerShown: false,
-          presentation: "card",
+          presentation: "modal",
         }}
       />
     </Stack>
