@@ -48,7 +48,11 @@ export default function MoviesPage() {
             key={index}
           >
             <ImageBackground
-              source={{ uri: movie.primaryImage?.url }}
+              source={{
+                uri:
+                  movie.primaryImage?.url ||
+                  "https://images.pexels.com/photos/1200450/pexels-photo-1200450.jpeg?auto=compress&cs=tinysrgb&w=600",
+              }}
               style={{
                 width: "100%",
                 height: 600,
