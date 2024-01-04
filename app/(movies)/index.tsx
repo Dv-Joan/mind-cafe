@@ -1,13 +1,14 @@
+import { ImageBackground } from "expo-image";
+import { router } from "expo-router";
+import React from "react";
 import {
-  View,
-  Text,
   ScrollView,
   StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from "react-native";
-import React from "react";
-import { Image } from "expo-image";
-import { router } from "expo-router";
+import { Chip } from "react-native-paper";
 
 export default function MoviesPage() {
   const [movies, setMovies] = React.useState<any>([]);
@@ -39,15 +40,35 @@ export default function MoviesPage() {
                 params: movie.id,
               });
             }}
+            className="mb-10"
             key={index}
-            style={styles.movieContainer}
           >
-            <Image
+            <ImageBackground
               source={{ uri: movie.primaryImage?.url }}
-              style={styles.image}
-            />
-            <Text style={styles.title}>{movie.originalTitleText.text}</Text>
-            <Text style={styles.year}>{movie.releaseYear.year}</Text>
+              style={{
+                width: "100%",
+                height: 600,
+              }}
+              className="rounded-2xl "
+            >
+              <View className="bg-black/80 p-5 flex flex-row justify-between bottom-0 w-full absolute">
+                <View className="space-y-2">
+                  <Text className="font-semibold text-xl w-48 text-white">
+                    {movie.originalTitleText.text}
+                  </Text>
+                  <Text className="text-slate-300 flex flex-row gap-2">
+                    <Text>Lanzamiento Esperado: </Text>
+                    {movie.releaseDate.day}/{movie.releaseDate.month}/
+                    {movie.releaseYear.year}
+                  </Text>
+                </View>
+                <View>
+                  <Chip mode="outlined" className="bg-rose-400 ">
+                    <Text className="text-white">{movie.titleType.id}</Text>
+                  </Chip>
+                </View>
+              </View>
+            </ImageBackground>
           </TouchableOpacity>
         ))}
     </ScrollView>
@@ -61,17 +82,7 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     justifyContent: "space-between",
   },
-  movieContainer: {
-    marginBottom: 20,
-    width: "100%",
-    alignItems: "center",
-  },
-  image: {
-    width: "100%",
-    height: 500,
-    resizeMode: "cover",
-    borderRadius: 8,
-  },
+
   title: {
     fontSize: 16,
     fontWeight: "bold",

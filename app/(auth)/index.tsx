@@ -85,7 +85,7 @@ export default function Login() {
               Google
             </Button> */}
             <Button
-              onPress={() => router.push("/(auth)/movies")}
+              onPress={() => router.push("/(movies)/")}
               className="rounded-xl w-1/2 active:opacity-70 "
               mode="contained"
               buttonColor="#EC4033"

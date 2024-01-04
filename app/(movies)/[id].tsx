@@ -1,14 +1,14 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import React from "react";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
+import React from "react";
+import { ScrollView, Text, View } from "react-native";
 
 export default function MovieDetailsById() {
   const params = useLocalSearchParams();
   const apiEndpoint = "https://moviesdatabase.p.rapidapi.com/titles/";
   const [singleMovieDetails, setSingleMovieDetails] = React.useState<any>({});
-  const fetchMovieDetails = async (titleId: string) => {
-    const url = `${apiEndpoint}${titleId}`;
+  const fetchMovieDetails = async (id: string | string[]) => {
+    const url = `${apiEndpoint}${id}`;
 
     try {
       const response = await fetch(url, {
@@ -22,16 +22,18 @@ export default function MovieDetailsById() {
       });
 
       const data = await response.json();
-      setSingleMovieDetails(data);
+      setSingleMovieDetails(data.results);
     } catch (error) {
       console.error("Error fetching movie Details:", error);
     }
   };
 
   React.useEffect(() => {
-    fetchMovieDetails(params.movie.id);
+    if (params.id) {
+      fetchMovieDetails(params.id);
+    }
   }, [params.id]);
-
+  console.log("singleMovieDetails", singleMovieDetails.id);
   return (
     <ScrollView>
       {Array.isArray(singleMovieDetails) &&
@@ -44,7 +46,7 @@ export default function MovieDetailsById() {
                 height: 100,
               }}
             />
-            <Text>{item.originalTitleText.text}</Text>
+            <Text>{item.titleText.text}</Text>
             <Text>{item.releaseYear.year}</Text>
           </View>
         ))}
